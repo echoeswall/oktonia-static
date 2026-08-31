@@ -30,6 +30,8 @@ a:focus-visible { outline:2px solid currentColor; outline-offset:5px; }
 .placeholder-cross::before { transform:rotate(33deg); }
 .placeholder-cross::after { transform:rotate(-33deg); }
 .image-placeholder.dark { background:#222; border-color:#555; color:#bcbcbc; }
+.image-placeholder.photo-filled { padding:0; }
+.image-placeholder.photo-filled img { display:block; width:100%; height:100%; object-fit:cover; }
 .section { padding-top:clamp(6rem,12vw,11rem); padding-bottom:clamp(6rem,12vw,11rem); display:grid; grid-template-columns:.75fr 1.25fr; gap:8vw; }
 .section-heading h2,.feature h2,.editorial h2,.page-cta h2 { margin:0; font-size:clamp(2.7rem,6vw,6rem); line-height:.98; letter-spacing:-.055em; font-weight:500; }
 .category-list { border-top:1px solid var(--ink); }

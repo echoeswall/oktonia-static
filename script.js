@@ -28,8 +28,7 @@ const translations = {
     'hero.eyebrow': 'Εύβοια · Ελλάδα',
     'hero.intro': '[Kurze Einführung in das Dorf, seine Landschaft und das Leben vor Ort.]',
     'hero.cta': 'Ort entdecken',
-    'hero.imageAria': 'Titelbild Platzhalter',
-    'hero.imageCaption': 'Titelbild · Landschaft / Dorfansicht',
+    'hero.imageAlt': 'Blick über Oktonia: Dorf zwischen Bergen, umgeben von Wald',
     'orientation.eyebrow': 'Orientierung',
     'orientation.heading': 'Das Dorf<br>auf einen Blick',
     'cat.uebernachten.title': 'Übernachten',
@@ -82,8 +81,7 @@ const translations = {
     'hero.eyebrow': 'Evia · Greece',
     'hero.intro': '[Short introduction to the village, its landscape and everyday life.]',
     'hero.cta': 'Discover the place',
-    'hero.imageAria': 'Header image placeholder',
-    'hero.imageCaption': 'Header image · Landscape / village view',
+    'hero.imageAlt': 'View of Oktonia: village nestled between mountains, surrounded by forest',
     'orientation.eyebrow': 'Orientation',
     'orientation.heading': 'The village<br>at a glance',
     'cat.uebernachten.title': 'Stay',
@@ -136,8 +134,7 @@ const translations = {
     'hero.eyebrow': 'Εύβοια · Ελλάδα',
     'hero.intro': '[Σύντομη εισαγωγή στο χωριό, το τοπίο και την καθημερινή ζωή.]',
     'hero.cta': 'Γνωρίστε τον τόπο',
-    'hero.imageAria': 'Θέση κεντρικής εικόνας',
-    'hero.imageCaption': 'Κεντρική εικόνα · Τοπίο / άποψη χωριού',
+    'hero.imageAlt': 'Θέα προς την Οκτωνιά: χωριό ανάμεσα σε βουνά, περιτριγυρισμένο από δάσος',
     'orientation.eyebrow': 'Προσανατολισμός',
     'orientation.heading': 'Το χωριό<br>με μια ματιά',
     'cat.uebernachten.title': 'Διαμονή',
@@ -205,6 +202,37 @@ const pagesData = {
   }
 };
 
+const sectionImages = {
+  'kirchen-kloester': [
+    {
+      src: 'assets/images/kirchen-kloester-kapelle.jpg',
+      alt: {
+        de: 'Kleine weiße Kapelle mit Kreuzen vor einem Berghang bei Oktonia',
+        en: 'Small white chapel with crosses in front of a mountainside near Oktonia',
+        el: 'Μικρό λευκό εξωκλήσι με σταυρούς μπροστά σε πλαγιά κοντά στην Οκτωνιά'
+      }
+    }
+  ],
+  'entdecken': [
+    {
+      src: 'assets/images/entdecken-strand-bucht.jpg',
+      alt: {
+        de: 'Türkisfarbene Bucht mit Sandstrand und Felsen bei Oktonia',
+        en: 'Turquoise bay with a sandy beach and rocks near Oktonia',
+        el: 'Τιρκουάζ κόλπος με αμμουδιά και βράχια κοντά στην Οκτωνιά'
+      }
+    },
+    {
+      src: 'assets/images/entdecken-strand-felsen.jpg',
+      alt: {
+        de: 'Felsige Küste mit türkisfarbenem Wasser bei Oktonia',
+        en: 'Rocky coastline with turquoise water near Oktonia',
+        el: 'Βραχώδης ακτή με τιρκουάζ νερά κοντά στην Οκτωνιά'
+      }
+    }
+  ]
+};
+
 function detectLanguage() {
   try {
     const stored = localStorage.getItem(LANG_STORAGE_KEY);
@@ -232,15 +260,23 @@ function renderSection(lang) {
   document.querySelector('[data-index]').textContent = page.index;
   document.querySelector('[data-title]').textContent = page.title;
   document.querySelector('[data-intro]').textContent = page.intro;
-  document.querySelector('[data-listings]').innerHTML = page.categories.map((category, index) => `
+  document.querySelector('[data-listings]').innerHTML = page.categories.map((category, index) => {
+    const photo = (sectionImages[key] || [])[index];
+    const aspect = index === 0 ? 'landscape' : 'portrait';
+    const media = photo
+      ? `<img src="${photo.src}" alt="${photo.alt[lang]}" loading="lazy">`
+      : `<span class="placeholder-cross"></span><span>${t(lang, 'card.imagePlaceholder')} · ${category}</span>`;
+    const mediaAttrs = photo ? '' : ` role="img" aria-label="${t(lang, 'card.imagePlaceholder')} ${category}"`;
+    return `
     <article class="listing-card">
-      <div class="image-placeholder ${index === 0 ? 'landscape' : 'portrait'}" role="img" aria-label="${t(lang, 'card.imagePlaceholder')} ${category}"><span class="placeholder-cross"></span><span>${t(lang, 'card.imagePlaceholder')} · ${category}</span></div>
+      <div class="image-placeholder ${aspect}${photo ? ' photo-filled' : ''}"${mediaAttrs}>${media}</div>
       <div class="listing-topline"><span>${category}</span><span>0${index + 1}</span></div>
       <h2>${t(lang, 'card.title')}</h2>
       <p>${t(lang, 'card.desc')}</p>
       <div class="listing-meta">${page.meta}</div>
       <a class="text-link" href="#">${t(lang, 'card.cta')} <span>→</span></a>
-    </article>`).join('');
+    </article>`;
+  }).join('');
 }
 
 function applyTranslations(lang) {
@@ -257,6 +293,9 @@ function applyTranslations(lang) {
   });
   document.querySelectorAll('[data-i18n-content]').forEach((el) => {
     el.setAttribute('content', t(lang, el.getAttribute('data-i18n-content')));
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+    el.setAttribute('alt', t(lang, el.getAttribute('data-i18n-alt')));
   });
   document.querySelectorAll('.languages a[data-lang]').forEach((a) => {
     a.classList.toggle('active', a.getAttribute('data-lang') === lang);
