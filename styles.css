@@ -21,6 +21,7 @@ a:focus-visible { outline:2px solid currentColor; outline-offset:5px; }
 .vertical-word { writing-mode:vertical-rl; margin:0; font-size:.65rem; letter-spacing:.45em; justify-self:end; }
 .text-link { display:inline-flex; align-items:center; gap:2rem; padding-bottom:.4rem; border-bottom:1px solid currentColor; font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
 .text-link span { font-size:1.1rem; }
+.text-link span.link-label { font-size:inherit; }
 .image-placeholder { min-height:360px; position:relative; border:1px solid var(--ink); background:var(--soft); display:flex; align-items:flex-end; padding:1rem; overflow:hidden; color:var(--muted); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; }
 .image-placeholder.square { aspect-ratio:1; min-height:0; }
 .image-placeholder.landscape { aspect-ratio:4/3; min-height:0; }
