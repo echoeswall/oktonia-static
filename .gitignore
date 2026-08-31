@@ -4,3 +4,11 @@ Thumbs.db
 *.log
 pics/
 _working
+
+# Backend (Phase 2+)
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/*.db

@@ -54,3 +54,9 @@ Die Domain `oktonia.info` ist noch nicht mit diesem Prototyp verbunden.
 
 Weitere Hintergründe stehen in [DOKUMENTATION.md](DOKUMENTATION.md).
 
+## Backend (in Arbeit)
+
+Es entsteht schrittweise ein optionales Flask/SQLite-Backend für einen
+Admin-Bereich und eine Karte. Aktuell nur lokal, betrifft die produktive
+statische Website nicht. Details in [BACKEND.md](BACKEND.md).
+
